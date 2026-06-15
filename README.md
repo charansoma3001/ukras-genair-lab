@@ -20,6 +20,13 @@ ollama serve                       # in one terminal
 ollama pull granite4.1:3b
 ```
 
+Pull the repository
+
+```bash
+git clone https://github.com/charansoma3001/ukras-genair-lab.git
+cd ukras-genair-lab 
+```
+
 Then run the lab:
 
 ```bash
