@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GenAIR Lab</title>
+        <link rel="stylesheet" href="/static/styles.css" />
+    </head>
+    <body>
+        <div class="app">
+            <div class="left">
+                <header>
+                    <div class="logo">GenAIR <span>Lab</span></div>
+                    <div class="env"><span id="scene">-</span></div>
+                    <div class="status">
+                        <a
+                            class="guide-link"
+                            href="/guide"
+                            target="_blank"
+                            rel="noopener"
+                            title="Open the lab Guide in a new tab"
+                            >📖 Guide</a
+                        >
+                        <span id="held"></span>
+                        <span
+                            ><span id="dot" class="dot"></span
+                            ><span id="statetext">booting…</span></span
+                        >
+                    </div>
+                </header>
+
+                <div class="video-wrap">
+                    <img id="video" src="/video_feed" alt="robot camera" />
+                </div>
+
+                <div class="controls">
+                    <div>
+                        <label>Model</label>
+                        <div class="row">
+                            <select
+                                id="model"
+                                onchange="applyConfig()"
+                            ></select>
+                            <button
+                                id="unloadbtn"
+                                class="ghost icon"
+                                title="Unload model from memory (ollama stop)"
+                                onclick="unloadModel()"
+                                style="display: none"
+                            >
+                                ⏏
+                            </button>
+                            <button
+                                class="ghost icon"
+                                title="refresh model list"
+                                onclick="loadModels()"
+                            >
+                                ↻
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Step delay (s)</label>
+                        <input
+                            id="delay"
+                            type="number"
+                            min="0"
+                            max="5"
+                            step="0.25"
+                            value="1.0"
+                            onchange="applyConfig()"
+                        />
+                    </div>
+                    <div>
+                        <label>Scene</label>
+                        <div class="row">
+                            <select
+                                id="scenesel"
+                                onchange="applyConfig()"
+                                title="switch floor plan (resets the world)"
+                            ></select>
+                            <button
+                                class="ghost icon"
+                                title="reset this floor plan"
+                                onclick="resetScene()"
+                            >
+                                ↺
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right">
+                <div class="tabs">
+                    <button
+                        id="tab-chat"
+                        class="active"
+                        onclick="showTab('chat')"
+                    >
+                        Chat
+                    </button>
+                    <button id="tab-prompt" onclick="showTab('prompt')">
+                        System Prompt
+                    </button>
+                    <button id="tab-abilities" onclick="showTab('abilities')">
+                        Abilities
+                    </button>
+                    <button id="tab-eval" onclick="showTab('eval')">
+                        Eval
+                    </button>
+                </div>
+
+                <div id="pane-chat" class="tabpane active">
+                    <div class="chatbar">
+                        <label
+                            id="thinkrow"
+                            class="toggle"
+                            title="Let reasoning models think before acting. Off is faster."
+                            style="display: none"
+                        >
+                            <input
+                                type="checkbox"
+                                id="think"
+                                onchange="applyConfig()"
+                            />
+                            Thinking
+                        </label>
+                        <span
+                            id="ctxtokens"
+                            class="ctx-tokens"
+                            title="Tokens the model read on the last turn (prompt + history + observation). Clear chat if this grows large."
+                        ></span>
+                        <button
+                            class="ghost small"
+                            onclick="clearChat()"
+                            title="Forget past commands and clear the log"
+                        >
+                            Clear chat
+                        </button>
+                    </div>
+                    <div id="log" class="log"></div>
+                    <div class="composer">
+                        <input
+                            id="cmd"
+                            placeholder="Tell the robot what to do…"
+                            onkeydown="if (event.key === 'Enter') send();"
+                        />
+                        <button id="sendbtn" onclick="send()">Send</button>
+                        <button
+                            id="stopbtn"
+                            class="ghost danger"
+                            onclick="stopRobot()"
+                            disabled
+                        >
+                            Stop
+                        </button>
+                    </div>
+                </div>
+
+                <div id="pane-abilities" class="tabpane">
+                    <div class="pane-body">
+                        <div class="hint">
+                            Equip your robot. One ability per line:
+                            <code>name(params) : description</code>, where
+                            <code>name</code> is one of the robot's API
+                            functions (see the Guide). The description is the
+                            natural language the model reads. The model can only
+                            use what's listed here.
+                        </div>
+                        <textarea id="abilities" spellcheck="false"></textarea>
+                        <div id="aberrors" class="errors"></div>
+                        <div class="actions">
+                            <button onclick="saveAbilities()">Save</button>
+                            <button class="ghost" onclick="resetAbilities()">
+                                Reset to default
+                            </button>
+                            <span id="absaved" class="saved-flash"
+                                >saved ✓</span
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pane-prompt" class="tabpane">
+                    <div class="pane-body">
+                        <div class="hint">
+                            This is the robot's brain. Edit it and click Save -
+                            the next command uses your new prompt instantly. If
+                            the robot misunderstands you, fix it here.
+                        </div>
+                        <textarea id="prompt" spellcheck="false"></textarea>
+                        <div class="actions">
+                            <button onclick="savePrompt()">Save</button>
+                            <button class="ghost" onclick="resetPrompt()">
+                                Reset to default
+                            </button>
+                            <button class="ghost" onclick="exportPrompt()">
+                                Export
+                            </button>
+                            <button
+                                class="ghost"
+                                onclick="
+                                    document
+                                        .getElementById('promptfile')
+                                        .click()
+                                "
+                            >
+                                Import
+                            </button>
+                            <input
+                                id="promptfile"
+                                type="file"
+                                accept=".txt"
+                                hidden
+                                onchange="importPrompt(event)"
+                            />
+                            <span id="savedflash" class="saved-flash"
+                                >saved ✓</span
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div id="pane-eval" class="tabpane">
+                    <div class="pane-body">
+                        <div class="hint">
+                            Task 4: write test cases (one JSON object per line),
+                            then <b>Run Eval</b>. Each case is a command + a
+                            check on the world after it runs. Task 5: change the
+                            model and re-run to compare.
+                        </div>
+                        <textarea
+                            id="eval"
+                            spellcheck="false"
+                            placeholder='{"command": "open the fridge", "check": {"object": "Fridge", "property": "isOpen", "equals": true}}'
+                        ></textarea>
+                        <div class="actions">
+                            <button id="runeval" onclick="runEval()">
+                                Run Eval
+                            </button>
+                            <button
+                                id="evalstop"
+                                class="ghost danger"
+                                onclick="stopRobot()"
+                                disabled
+                            >
+                                Stop
+                            </button>
+                            <button class="ghost" onclick="saveEval()">
+                                Save
+                            </button>
+                            <span id="evalsaved" class="saved-flash"
+                                >saved ✓</span
+                            >
+                            <span id="evalscore" class="score"></span>
+                        </div>
+                        <div id="evalresults" class="log eval-results"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/static/app.js"></script>
+    </body>
+</html>

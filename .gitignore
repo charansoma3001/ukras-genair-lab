@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.DS_Store
+# student-edited runtime files
+prompts/abilities.txt
+prompts/system_prompt.txt
+tasks/eval_cases.jsonl
+# built Guide site (mkdocs build, web/guide) + the hook-generated API page
+web/guide/
+docs/api-reference.md

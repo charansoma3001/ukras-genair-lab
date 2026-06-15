@@ -1,0 +1,80 @@
+site_name: GenAIR Lab Guide
+site_description: How to run the lab, the robot's API, and the Task 1-6 tutorial.
+docs_dir: docs
+# Built into web/guide so the FastAPI server can mount it at /guide.
+site_dir: web/guide
+use_directory_urls: false
+
+theme:
+  name: material
+  icon:
+    logo: material/robot-happy-outline
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - content.code.copy # copy-to-clipboard on every code block
+    - content.code.annotate
+    - navigation.instant
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - toc.follow
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.details
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+# Native hook (no plugin dependency): generates api-reference.md from the live
+# powers registry on every build, so the API docs can't drift from the code.
+hooks:
+  - scripts/gen_api_docs.py
+
+# Pre-existing project files under docs/ that are not part of the student Guide.
+exclude_docs: |
+  .DS_Store
+  plans/
+  feature-log.md
+
+nav:
+  - Home: index.md
+  - The robot's API: api-reference.md
+  - Tutorial:
+      - "Task 1 - First commands": tutorial/task-1.md
+      - "Task 2 - Navigation": tutorial/task-2.md
+      - "Task 3 - Hands": tutorial/task-3.md
+      - "Task 4 - Evaluation": tutorial/task-4.md
+      - "Task 5 - Compare models": tutorial/task-5.md

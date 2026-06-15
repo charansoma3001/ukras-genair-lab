@@ -1,0 +1,23 @@
+.git
+.gitignore
+.venv
+venv
+__pycache__
+**/__pycache__
+*.py[cod]
+*.egg-info
+dist
+build
+.pytest_cache
+.DS_Store
+.env
+# Built/generated docs — regenerated in the image.
+web/guide
+docs/api-reference.md
+# Local scratch.
+NOW.md
+docs/plans
+# Student-edited runtime files — seeded from defaults, never baked in.
+prompts/abilities.txt
+prompts/system_prompt.txt
+tasks/eval_cases.jsonl

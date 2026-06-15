@@ -1,0 +1,26 @@
+# Run the lab in Docker against a model server on the host.
+#   docker compose up --build, then go to http://localhost:8001
+
+services:
+  genair:
+    build: .
+    image: ghcr.io/charansoma3001/genair-lab:latest
+    ports:
+      - "8001:8001"
+    environment:
+      MODEL_BASE_URL: "http://host.docker.internal:11434/v1"
+      MODEL_NAME: "qwen2.5:1.5b"
+      MODEL_API_KEY: "ollama"
+      SCENE: "FloorPlan1"
+      STEP_DELAY: "1.0"
+      MAX_STEPS: "12"
+      THINK: "true"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - genair-prompts:/app/prompts
+      - genair-tasks:/app/tasks
+
+volumes:
+  genair-prompts:
+  genair-tasks:

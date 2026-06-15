@@ -1,0 +1,97 @@
+/* GenAIR Lab Guide - polish layer over Material.
+   Subtle purple (#2e3453) for chrome; brand gradient (#6ea8fe -> #7ee787)
+   mirrors the app header logo. */
+
+:root {
+  --gen-purple:       #2e3453;
+  --gen-purple-light: #3c4570;
+  --md-primary-fg-color:        #2e3453;
+  --md-primary-fg-color--light: #3c4570;
+  --md-primary-fg-color--dark:  #232843;
+  --md-accent-fg-color:         #5560d8;
+  --gen-grad: linear-gradient(100deg, #6ea8fe, #7ee787);
+  /* Links/buttons get their OWN readable colour, NOT the dark chrome purple. */
+  --md-typeset-a-color: #4a52c9;       /* light mode: dark enough on white */
+}
+
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color:        #14161f;
+  --md-code-bg-color:           #1c2133;
+  --md-default-fg-color--light: #c9d1d9;
+  --md-accent-fg-color:         #9aa0f2;
+  --md-typeset-a-color:         #aab1ff; /* dark mode: light enough on dark */
+}
+
+/* Light mode: tint surfaces slightly toward the purple. */
+[data-md-color-scheme="default"] {
+  --md-code-bg-color: #f1f2fa;
+}
+
+/* Brand gradient on the home hero title only (opt-in via { .brand }). */
+.md-typeset h1.brand {
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 2.6rem;
+  background: var(--gen-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.2em;
+}
+
+.md-typeset .lead {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--md-default-fg-color--light);
+  max-width: 46rem;
+}
+
+/* Headings a touch tighter / bolder for a modern feel. */
+.md-typeset h2 { font-weight: 700; letter-spacing: -0.01em; margin-top: 2.2em; }
+.md-typeset h3 { font-weight: 650; }
+
+/* Left nav: highlight the active page with the readable link colour. */
+.md-nav__link--active,
+.md-nav__item .md-nav__link--active {
+  color: var(--md-typeset-a-color);
+  font-weight: 600;
+}
+.md-nav__link:focus,
+.md-nav__link:hover {
+  color: var(--md-typeset-a-color);
+}
+
+/* Table header in the subtle purple (white text = high contrast). */
+.md-typeset table:not([class]) th {
+  background: var(--gen-purple);
+  color: #fff;
+}
+
+/* Code blocks: slightly rounder; inline code in the readable link colour. */
+.md-typeset pre > code { border-radius: 10px; }
+.md-typeset :not(pre) > code { color: var(--md-typeset-a-color); }
+
+/* Primary button: solid on-theme purple, white text, darkens on hover. */
+.md-typeset .md-button--primary {
+  background: #5560d8;
+  border-color: #5560d8;
+  color: #fff;
+  font-weight: 700;
+}
+.md-typeset .md-button--primary:hover,
+.md-typeset .md-button--primary:focus {
+  background: #4049b8;
+  border-color: #4049b8;
+  color: #fff;
+}
+
+/* Secondary button: readable link colour, fills on hover (was dark-on-dark). */
+.md-typeset .md-button {
+  color: var(--md-typeset-a-color);
+  border-color: var(--md-typeset-a-color);
+}
+.md-typeset .md-button:not(.md-button--primary):hover {
+  background: var(--md-typeset-a-color);
+  border-color: var(--md-typeset-a-color);
+  color: var(--md-default-bg-color);
+}
