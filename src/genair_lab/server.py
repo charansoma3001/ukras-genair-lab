@@ -86,7 +86,7 @@ class State:
         self.config = {
             "scene": os.getenv("SCENE", "FloorPlan1"),
             "model_name": os.getenv(
-                "MODEL_NAME", os.getenv("ollama_model", "qwen2.5:1.5b")
+                "MODEL_NAME", os.getenv("ollama_model", "granite4.1:3b")
             ),
             "base_url": os.getenv(
                 "MODEL_BASE_URL", os.getenv("ollama_url", "http://localhost:11434/v1")
