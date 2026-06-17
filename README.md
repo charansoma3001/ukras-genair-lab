@@ -60,15 +60,7 @@ There are three tabs in the UI, each backed by a file:
 
 Each tab has a "Reset to default" button. The defaults live in `src/genair_lab/default_*`.
 
-## The loop
 
-The whole thing is in [`src/genair_lab/simple.py`](src/genair_lab/simple.py):
-
-1. Build the messages: system prompt, what the robot sees, and your command.
-2. Ask the model to pick one ability.
-3. Run it in the simulator.
-4. Show the model the new observation.
-5. Repeat until the model calls `finish`, hits the step limit, or you press Stop.
 
 ## Config (`.env`)
 
