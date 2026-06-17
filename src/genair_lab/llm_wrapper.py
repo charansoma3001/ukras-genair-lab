@@ -21,7 +21,7 @@ load_dotenv()
 
 
 DEFAULT_BASE_URL = "http://localhost:11434/v1"
-DEFAULT_MODEL = "qwen2.5:1.5b"
+DEFAULT_MODEL = "granite4.1:3b"
 
 
 def _env(*names: str, default: str = "") -> str:

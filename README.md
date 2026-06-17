@@ -67,7 +67,7 @@ Each tab has a "Reset to default" button. The defaults live in `src/genair_lab/d
 | Variable | Meaning | Default |
 |---|---|---|
 | `MODEL_BASE_URL` | OpenAI-compatible endpoint | `http://localhost:11434/v1` |
-| `MODEL_NAME` | model sent in each request | `qwen2.5:1.5b` |
+| `MODEL_NAME` | model sent in each request | `granite4.1:3b` |
 | `MODEL_API_KEY` | any non-empty string for Ollama/llama-server | `ollama` |
 | `SCENE` | AI2-THOR floor plan | `FloorPlan1` |
 | `STEP_DELAY` | seconds between actions, so that you can watch the animation | `1.0` |
