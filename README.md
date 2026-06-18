@@ -45,7 +45,7 @@ The first run downloads the AI2-THOR scene build (this takes a few minutes, once
 
 The 📖 link in the header opens the Guide (`/guide`), a MkDocs site with everything students need:
 
-- A walkthrough of Tasks 1-5.
+- A walkthrough of Tasks 1-5 -- self left sidebar of the Guide
 - An API reference listing the robot's capabilities, generated from the code so that it stays in sync.
 
 (You can rebuild it with `uv run mkdocs build`)
