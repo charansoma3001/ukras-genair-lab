@@ -6,10 +6,10 @@ This Lab is Built for the UK RAS Summer School, and can be run using Ollama or a
 
 ## Step 1: Requirements
 
-- [uv](https://docs.astral.sh/uv/) (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
-- A model server. Ollama is the easiest option.
-- macOS (Intel or Apple Silicon) or Linux x86_64. On Apple Silicon, AI2-THOR runs its Intel build under Rosetta, so please install Rosetta once if you haven't: `softwareupdate --install-rosetta --agree-to-license`.
-- Windows: AI2-THOR has no native build for this version, so please run the lab inside [WSL2](https://learn.microsoft.com/windows/wsl/install) (Ubuntu), which is Linux x86_64.
+- Install [uv](https://docs.astral.sh/uv/) (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
+- Install a model server. [Ollama](https://ollama.com/) is the easiest option ('curl -fsSL https://ollama.com/install.sh | sh`)
+- For macOS (Intel or Apple Silicon) or Linux x86_64. On Apple Silicon, AI2-THOR runs its Intel build under Rosetta, so please install Rosetta once if you haven't: `softwareupdate --install-rosetta --agree-to-license`.
+- If you are using Windows: AI2-THOR has no native build for this version, so please run the lab inside [WSL2](https://learn.microsoft.com/windows/wsl/install) (Ubuntu), which is Linux x86_64.
 
 ## Step 2: Quick start
 
