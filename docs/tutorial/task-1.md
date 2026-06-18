@@ -5,6 +5,12 @@
 Get a feel for the loop: type a command, watch the robot pick one ability at a
 time, and see where it succeeds or gets confused.
 
+Note - when the model says that it has completed a task, this is not always accurate!
+
+Note - clear the chat log (top right button) every so often to free up memory
+
+Note - you can reset the scene if the robot gets stuck
+
 ## What you start with
 
 The default abilities equip a minimal set:
@@ -20,7 +26,7 @@ finish(message) : Say the command is complete.
 
 - Ask *"what do you see?"* and *"pick up the apple"*.
 - Watch the step log: which ability does it choose, and why?
-- Find a command it gets wrong - that's what Tasks 2 and 3 fix.
+- Find a command that it gets wrong - that's what Tasks 2 and 3 fix.
 
 ## Where the fix lives
 
