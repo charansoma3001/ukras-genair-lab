@@ -16,6 +16,6 @@ the world afterwards:
 
 ## Try this
 
-- Write 3-5 cases covering the commands you worked on in Tasks 1-3.
+- Write 5-10 cases covering the commands you worked on in Tasks 1-3.
 - Click **Run Eval** and read the pass-rate. The scene resets between cases.
 - A failing case is a precise bug report - fix the prompt or abilities and re-run.
