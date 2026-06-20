@@ -12,6 +12,7 @@ build/
 prompts/abilities.txt
 prompts/system_prompt.txt
 tasks/eval_cases.jsonl
-# built Guide site (mkdocs build, web/guide) + the hook-generated API page
+# built Guide site (mkdocs build, web/guide) + the hook-generated pages
 web/guide/
 docs/api-reference.md
+docs/eval-reference.md

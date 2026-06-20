@@ -62,6 +62,7 @@ plugins:
 # powers registry on every build, so the API docs can't drift from the code.
 hooks:
   - scripts/gen_api_docs.py
+  - scripts/gen_eval_docs.py
 
 # Pre-existing project files under docs/ that are not part of the student Guide.
 exclude_docs: |
@@ -72,6 +73,7 @@ exclude_docs: |
 nav:
   - Home: index.md
   - The robot's API: api-reference.md
+  - Writing eval cases: eval-reference.md
   - Tutorial:
       - "Task 1 - First commands": tutorial/task-1.md
       - "Task 2 - Navigation": tutorial/task-2.md

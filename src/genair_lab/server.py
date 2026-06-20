@@ -605,3 +605,70 @@ async def status():
             else None
         ),
     }
+
+_CAP_TO_PROP = [
+    ("openable", "isOpen"),
+    ("toggleable", "isToggled"),
+    ("sliceable", "isSliced"),
+    ("cookable", "isCooked"),
+    ("breakable", "isBroken"),
+    ("dirtyable", "isDirty"),
+    ("canFillWithLiquid", "isFilledWithLiquid"),
+    ("canBeUsedUp", "isUsedUp"),
+]
+
+
+@app.get("/scene/objects")
+async def scene_objects():
+    """What's actually in the current scene, grouped by type, with the checkable
+    properties and their current state - the ground truth for writing eval cases.
+
+    Reads the cached last_event metadata (no controller.step), so it's safe to
+    call off the request thread, same as /status reading held_object.
+    """
+    if not (state.ready.is_set() and state.agent):
+        return JSONResponse({"ready": False, "objects": []}, status_code=503)
+
+    held_id = state.agent.held_object  # full object id of what's in hand, or None
+
+    groups: dict = {}
+    for o in state.agent.get_all_objects():
+        g = groups.get(o["name"])
+        if g is None:
+            g = groups[o["name"]] = {
+                "type": o["name"],
+                "count": 0,
+                "pickupable": bool(o.get("pickupable")),
+                "held": False,
+                # property name -> how many instances currently have it true
+                "_props": {p: [0, 0] for cap, p in _CAP_TO_PROP if o.get(cap)},
+            }
+        g["count"] += 1
+        g["pickupable"] = g["pickupable"] or bool(o.get("pickupable"))
+        if held_id and o.get("id") == held_id:
+            g["held"] = True
+        for cap, prop in _CAP_TO_PROP:
+            if o.get(cap):
+                g["_props"].setdefault(prop, [0, 0])
+                g["_props"][prop][1] += 1  # total
+                if o.get(prop):
+                    g["_props"][prop][0] += 1  # currently true
+
+    objects = []
+    for g in sorted(groups.values(), key=lambda x: x["type"]):
+        props = [
+            {"name": p, "trueCount": tc, "total": tot}
+            for p, (tc, tot) in g["_props"].items()
+        ]
+        props.sort(key=lambda x: x["name"])
+        objects.append(
+            {
+                "type": g["type"],
+                "count": g["count"],
+                "pickupable": g["pickupable"],
+                "held": g["held"],
+                "props": props,
+            }
+        )
+
+    return {"ready": True, "scene": state.config["scene"], "objects": objects}

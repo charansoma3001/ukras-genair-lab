@@ -111,11 +111,11 @@ ev.onmessage = (e) => {
       addEval(
         "step",
         '<span class="run">▶</span> ' +
-          m.data.index +
-          "/" +
-          m.data.total +
-          " " +
-          esc(m.message),
+        m.data.index +
+        "/" +
+        m.data.total +
+        " " +
+        esc(m.message),
       );
       break;
     case "EVAL_CASE_DONE":
@@ -148,7 +148,8 @@ ev.onmessage = (e) => {
 // status polling
 let booted = false,
   curModel = "",
-  isOllama = false;
+  isOllama = false,
+  objSceneShown = "";
 async function poll() {
   try {
     const s = await (await fetch("/status")).json();
@@ -166,6 +167,9 @@ async function poll() {
     }
     $("held").textContent = s.held_object ? "holding: " + s.held_object : "";
     $("scene").textContent = s.config.scene;
+    // keep the objects panel current if the scene changed while it's open
+    if (!$("objpanel").hidden && s.config.scene !== objSceneShown)
+      renderObjects();
     // button states (covers chat + eval)
     $("sendbtn").disabled = s.busy || !s.ready;
     $("cmd").disabled = !s.ready;
@@ -191,7 +195,7 @@ async function poll() {
       populateScenes(s.config.scene);
       loadModels(); // will call updateThinkingToggle after fetching caps
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 setInterval(poll, 1200);
 poll();
@@ -295,6 +299,73 @@ async function clearChat() {
 async function resetScene() {
   await fetch("/reset", { method: "POST" });
 }
+
+// objects-in-scene panel - one compact chip per object type:
+// name, count, and each checkable property with its current value.
+function propTokens(props) {
+  return props
+    .map((p) => {
+      const val =
+        p.total <= 1
+          ? p.trueCount
+            ? "true"
+            : "false"
+          : `${p.trueCount}/${p.total}`;
+      const cls = p.trueCount ? "state-on" : "state-off";
+      return `<span class="prop">${p.name}</span> <span class="${cls}">${val}</span>`;
+    })
+    .join(" · ");
+}
+
+function chip(o) {
+  const parts = [`<span class="nm">${esc(o.type)}</span>`];
+  if (o.count > 1) parts.push(`<span class="n">×${o.count}</span>`);
+  const props = propTokens(o.props);
+  if (props) parts.push(props);
+  if (o.held) parts.push('<span class="held">held</span>');
+  return `<span class="objchip">${parts.join(" ")}</span>`;
+}
+
+// Toggle the drawer: click Objects again (or ✕ / Escape) to close. It stays open otherwise
+function openObjects() {
+  const panel = $("objpanel");
+  if (!panel.hidden) {
+    closeObjects();
+    return;
+  }
+  panel.hidden = false;
+  $("objbtn").classList.add("active");
+  $("objbody").innerHTML = '<div class="objpanel-empty">Loading…</div>';
+  renderObjects();
+}
+function closeObjects() {
+  $("objpanel").hidden = true;
+  $("objbtn").classList.remove("active");
+}
+async function renderObjects() {
+  try {
+    const r = await fetch("/scene/objects");
+    if (!r.ok) {
+      $("objbody").innerHTML =
+        '<div class="objpanel-empty">Scene still booting — try again in a moment.</div>';
+      return;
+    }
+    const data = await r.json();
+    objSceneShown = data.scene || "";
+    if (!data.objects.length) {
+      $("objbody").innerHTML =
+        '<div class="objpanel-empty">No objects reported.</div>';
+      return;
+    }
+    $("objbody").innerHTML = data.objects.map(chip).join("");
+  } catch (e) {
+    $("objbody").innerHTML =
+      '<div class="objpanel-empty">Could not load objects.</div>';
+  }
+}
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !$("objpanel").hidden) closeObjects();
+});
 
 // chat
 async function send() {

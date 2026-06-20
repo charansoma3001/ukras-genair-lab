@@ -19,7 +19,6 @@ GROUP_BLURB = {
     "DONE": "Signal that the command is complete.",
 }
 
-# Order groups the way a student meets them in the tutorial.
 GROUP_ORDER = ["MOVE", "INTERACT", "SENSE", "DONE"]
 
 

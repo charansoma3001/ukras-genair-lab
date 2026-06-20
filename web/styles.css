@@ -16,9 +16,11 @@
     --sans:
         -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
 }
+
 * {
     box-sizing: border-box;
 }
+
 body {
     margin: 0;
     background: var(--bg);
@@ -34,13 +36,17 @@ body {
     grid-template-columns: 1.1fr 0.9fr;
     height: 100vh;
 }
+
 .left {
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--line);
     min-width: 0;
     min-height: 0;
+    position: relative;
+    /* anchor for the objects drawer */
 }
+
 .right {
     display: flex;
     flex-direction: column;
@@ -56,17 +62,20 @@ header {
     padding: 12px 18px;
     border-bottom: 1px solid var(--line);
 }
+
 header .logo {
     font-weight: 800;
     letter-spacing: -0.02em;
     font-size: 18px;
 }
+
 header .logo span {
     background: linear-gradient(100deg, #6ea8fe, #7ee787);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
 }
+
 header .env {
     font-family: var(--mono);
     font-size: 12px;
@@ -75,6 +84,7 @@ header .env {
     border: 1px solid var(--line);
     border-radius: 999px;
 }
+
 header .status {
     margin-left: auto;
     font-family: var(--mono);
@@ -83,6 +93,7 @@ header .status {
     gap: 14px;
     align-items: center;
 }
+
 header .guide-link {
     text-decoration: none;
     color: var(--ink);
@@ -94,10 +105,12 @@ header .guide-link {
         border-color 0.12s,
         color 0.12s;
 }
+
 header .guide-link:hover {
     border-color: var(--accent-soft);
     color: var(--accent-soft);
 }
+
 .dot {
     display: inline-block;
     width: 8px;
@@ -106,13 +119,16 @@ header .guide-link:hover {
     background: var(--warn);
     margin-right: 5px;
 }
+
 .dot.ready {
     background: var(--green);
 }
+
 .dot.busy {
     background: var(--accent);
     animation: pulse 1s infinite;
 }
+
 @keyframes pulse {
     50% {
         opacity: 0.4;
@@ -129,6 +145,7 @@ header .guide-link:hover {
     justify-content: center;
     background: #05070a;
 }
+
 .video-wrap img {
     max-width: 100%;
     max-height: 100%;
@@ -146,6 +163,7 @@ header .guide-link:hover {
     gap: 12px;
     align-items: end;
 }
+
 .controls label {
     font-size: 11px;
     font-family: var(--mono);
@@ -155,6 +173,7 @@ header .guide-link:hover {
     display: block;
     margin-bottom: 5px;
 }
+
 .controls input,
 .controls select {
     width: 100%;
@@ -166,6 +185,7 @@ header .guide-link:hover {
     font-size: 13px;
     font-family: var(--mono);
 }
+
 .controls .row {
     display: flex;
     gap: 6px;
@@ -183,21 +203,26 @@ button {
     cursor: pointer;
     font-family: var(--sans);
 }
+
 button:hover {
     filter: brightness(1.08);
 }
+
 button.ghost {
     background: var(--panel2);
     color: var(--ink);
     border: 1px solid var(--line);
 }
+
 button.ghost.danger {
     color: var(--red);
     border-color: var(--red);
 }
+
 button.icon {
     padding: 8px 11px;
 }
+
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -216,6 +241,7 @@ button:disabled {
     display: flex;
     border-bottom: 1px solid var(--line);
 }
+
 .tabs button {
     flex: 1;
     background: transparent;
@@ -226,16 +252,19 @@ button:disabled {
     padding: 12px;
     font-weight: 600;
 }
+
 .tabs button.active {
     color: var(--ink);
     border-bottom-color: var(--accent);
 }
+
 .tabpane {
     flex: 1;
     display: none;
     flex-direction: column;
     min-height: 0;
 }
+
 .tabpane.active {
     display: flex;
 }
@@ -248,6 +277,7 @@ button:disabled {
     padding: 8px 14px;
     border-bottom: 1px solid var(--line);
 }
+
 .chatbar .toggle {
     display: flex;
     align-items: center;
@@ -258,15 +288,18 @@ button:disabled {
     cursor: pointer;
     user-select: none;
 }
+
 .chatbar .toggle input {
     accent-color: var(--accent);
     cursor: pointer;
 }
+
 .chatbar .small {
     margin-left: auto;
     padding: 6px 11px;
     font-size: 12px;
 }
+
 .log {
     flex: 1;
     min-height: 0;
@@ -276,6 +309,7 @@ button:disabled {
     flex-direction: column;
     gap: 8px;
 }
+
 .msg {
     padding: 9px 13px;
     border-radius: 10px;
@@ -285,16 +319,19 @@ button:disabled {
     white-space: pre-wrap;
     word-break: break-word;
 }
+
 .msg.user {
     align-self: flex-end;
     background: var(--accent);
     color: #fff;
 }
+
 .msg.robot {
     align-self: flex-start;
     background: var(--panel2);
     border: 1px solid var(--line);
 }
+
 .step {
     align-self: flex-start;
     font-family: var(--mono);
@@ -305,21 +342,26 @@ button:disabled {
     background: #181d2e;
     color: var(--dim);
 }
+
 .step .ok {
     color: var(--green);
 }
+
 .step .fail {
     color: var(--red);
 }
+
 .step .run {
     color: var(--accent-soft);
 }
+
 .sys {
     align-self: center;
     font-family: var(--mono);
     font-size: 11px;
     color: var(--dim);
 }
+
 .done {
     align-self: center;
     font-family: var(--mono);
@@ -334,14 +376,17 @@ button:disabled {
     gap: 9px;
     color: var(--dim);
 }
+
 .msg.thinking .think-label {
     font-size: 13px;
     font-style: italic;
 }
+
 .msg.thinking .dots {
     display: inline-flex;
     gap: 4px;
 }
+
 .msg.thinking .dots i {
     width: 6px;
     height: 6px;
@@ -350,19 +395,24 @@ button:disabled {
     display: inline-block;
     animation: think 1.2s infinite ease-in-out both;
 }
+
 .msg.thinking .dots i:nth-child(1) {
     animation-delay: -0.32s;
 }
+
 .msg.thinking .dots i:nth-child(2) {
     animation-delay: -0.16s;
 }
+
 @keyframes think {
+
     0%,
     80%,
     100% {
         transform: scale(0.5);
         opacity: 0.4;
     }
+
     40% {
         transform: scale(1);
         opacity: 1;
@@ -375,6 +425,7 @@ button:disabled {
     padding: 14px;
     border-top: 1px solid var(--line);
 }
+
 .composer input {
     flex: 1;
     background: var(--panel2);
@@ -394,6 +445,7 @@ button:disabled {
     gap: 10px;
     min-height: 0;
 }
+
 .pane-body textarea {
     flex: 1;
     width: 100%;
@@ -407,15 +459,18 @@ button:disabled {
     line-height: 1.5;
     resize: none;
 }
+
 .actions {
     display: flex;
     gap: 8px;
     align-items: center;
 }
+
 .hint {
     font-size: 12px;
     color: var(--dim);
 }
+
 .saved-flash {
     color: var(--green);
     font-size: 12px;
@@ -423,23 +478,143 @@ button:disabled {
     opacity: 0;
     transition: opacity 0.2s;
 }
+
 .saved-flash.show {
     opacity: 1;
 }
+
 .score {
     margin-left: auto;
     font-family: var(--mono);
     font-weight: 700;
 }
+
 .ctx-tokens {
     font-family: var(--mono);
     font-size: 12px;
     opacity: 0.65;
 }
+
 .eval-results {
     flex: 0 0 auto;
     max-height: 30vh;
     border: 1px solid var(--line);
     border-radius: 10px;
     background: #12141f;
+}
+
+/* header "Objects" button - matches the guide-link pill */
+header .env-btn {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink);
+    background: var(--panel2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 3px 11px;
+    cursor: pointer;
+    transition:
+        border-color 0.12s,
+        color 0.12s;
+}
+
+header .env-btn:hover {
+    border-color: var(--accent-soft);
+    color: var(--accent-soft);
+}
+
+header .env-btn.active {
+    border-color: var(--accent-soft);
+    color: var(--accent-soft);
+    background: var(--accent);
+    color: var(--ink);
+}
+
+header .env-btn .caret {
+    display: inline-block;
+    line-height: 1;
+    margin-left: 3px;
+    transition: transform 0.15s ease;
+}
+
+header .env-btn.active .caret {
+    transform: rotate(180deg);
+}
+
+/* objects reference - a full-width band under the header covering the top half
+   of the left column; stays open until the Objects button is toggled again */
+.objpanel {
+    position: absolute;
+    top: 53px;
+    left: 0;
+    right: 0;
+    max-height: 40%;
+    z-index: 20;
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.objpanel[hidden] {
+    display: none;
+}
+
+.objpanel-body {
+    overflow-y: auto;
+    padding: 12px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-content: flex-start;
+}
+
+.objchip {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 100%;
+    gap: 3px 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 4px 8px;
+}
+
+.objchip .nm {
+    color: var(--ink);
+}
+
+.objchip .n {
+    color: var(--dim);
+    font-size: 11px;
+}
+
+.objchip .prop {
+    color: var(--accent-soft);
+}
+
+.objchip .held {
+    color: var(--green);
+    border: 1px solid var(--green);
+    border-radius: 5px;
+    padding: 0 4px;
+    font-size: 11px;
+}
+
+.state-on {
+    color: var(--green);
+}
+
+.state-off {
+    color: var(--dim);
+}
+
+.objpanel-empty {
+    color: var(--dim);
+    padding: 14px;
 }

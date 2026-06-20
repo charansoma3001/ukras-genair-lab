@@ -14,6 +14,9 @@ the world afterwards:
 {"command": "open the fridge", "check": {"object": "Fridge", "property": "isOpen", "equals": true}}
 ```
 
+For every check type, the full property list, and how to find valid object names,
+see [Writing eval cases](../eval-reference.md).
+
 ## Try this
 
 - Write 5-10 cases covering the commands you worked on in Tasks 1-3.
