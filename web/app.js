@@ -67,6 +67,7 @@ ev.onmessage = (e) => {
     case "STEP_COMPLETED":
       add("step", '<span class="ok">✓</span> ' + esc(m.message));
       showThinking(modelLabel());
+      refreshObjects(); // the world likely changed - keep the panel live
       break;
     case "STEP_FAILED":
       add("step", '<span class="fail">✗</span> ' + esc(m.message));
@@ -92,6 +93,7 @@ ev.onmessage = (e) => {
       break;
     case "SYSTEM_MSG":
       add("sys", esc(m.message));
+      refreshObjects(); // covers scene reset (same scene name, new world)
       break;
     case "ERROR":
       add("step", '<span class="fail">error:</span> ' + esc(m.message));
@@ -125,6 +127,7 @@ ev.onmessage = (e) => {
           ? '<span class="ok">✓ PASS</span> '
           : '<span class="fail">✗ FAIL</span> ') + esc(m.message),
       );
+      refreshObjects();
       break;
     case "EVAL_STOPPED":
       addEval("done", "◼ " + esc(m.message));
@@ -342,6 +345,10 @@ function closeObjects() {
   $("objpanel").hidden = true;
   $("objbtn").classList.remove("active");
 }
+// Re-render only if the panel is open (called on world-changing events).
+function refreshObjects() {
+  if (!$("objpanel").hidden) renderObjects();
+}
 async function renderObjects() {
   try {
     const r = await fetch("/scene/objects");
@@ -357,7 +364,10 @@ async function renderObjects() {
         '<div class="objpanel-empty">No objects reported.</div>';
       return;
     }
-    $("objbody").innerHTML = data.objects.map(chip).join("");
+    const body = $("objbody");
+    const keepScroll = body.scrollTop; // don't jump while live-refreshing
+    body.innerHTML = data.objects.map(chip).join("");
+    body.scrollTop = keepScroll;
   } catch (e) {
     $("objbody").innerHTML =
       '<div class="objpanel-empty">Could not load objects.</div>';
@@ -470,6 +480,10 @@ async function saveEval() {
     body: JSON.stringify({ text: $("eval").value }),
   });
   flash("evalsaved");
+}
+async function resetEval() {
+  const r = await (await fetch("/eval/cases/reset", { method: "POST" })).json();
+  $("eval").value = r.text;
 }
 async function runEval() {
   const btn = $("runeval");

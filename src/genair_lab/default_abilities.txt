@@ -1,24 +1,4 @@
-# Equip your robot - one ability per line:
-#     name(params) : description
-#
-# `name` must be one of the robot's API functions - see the Guide for the full
-# list of what the robot understands. The description is yours to write: it's
-# the natural language the model reads to decide when to use the ability.
-#
-# The model can only use the abilities you list here. Give it more to do more.
-
 navigate_to(object_id) : Walk over to an object so you can reach it.
 pickup(object_id) : Pick up a visible object.
 get_object_metadata(object_id) : Check the exact state of one object.
 finish(message) : Say the command is complete.
-
-# Task 2: give your robot navigation. Add lines like:
-# rotate_left(degrees) : Turn to the left.
-# rotate_right(degrees) : Turn to the right.
-# look_down() : Tilt the camera down.
-
-# Task 3: give your robot hands. Add lines like:
-# open(object_id) : Open a cabinet, fridge or drawer.
-# place_on(receptacle_id) : Put the held object onto/into something.
-# toggle_on(object_id) : Turn something on.
-# slice(object_id) : Slice something (hold a knife first).

@@ -420,6 +420,13 @@ async def set_eval_cases(req: EvalCasesRequest):
     return {"status": "saved"}
 
 
+@app.post("/eval/cases/reset")
+async def reset_eval_cases():
+    default = _read_packaged(DEFAULT_EVAL_PATH)
+    write_eval_text(default)
+    return {"text": default, "status": "reset"}
+
+
 @app.post("/eval/run")
 async def run_eval_endpoint(req: EvalCasesRequest):
     if not state.ready.is_set():
