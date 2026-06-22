@@ -56,6 +56,45 @@ def _probe_native(native_url: str) -> bool:
         return False
 
 
+def _installed_models(native_url: str) -> Optional[List[str]]:
+    """Names of models the Ollama server has pulled, or None"""
+    tags_url = native_url.replace("/api/chat", "/api/tags")
+    try:
+        with urllib.request.urlopen(tags_url, timeout=3) as r:
+            data = json.loads(r.read())
+        return [m.get("name", "") for m in data.get("models", [])]
+    except Exception:
+        return None
+
+
+def _resolve_model(native_url: str, model: str):
+    """Resolve the model to use on this Ollama server.
+      - configured model is pulled - use it, no warning
+      - missing but other models present - fall back to one, return a warning
+      - no models installed at all - raise (nothing can run)
+      - /api/tags unreachable - use it as-is (let the call surface any issue)
+    Returns ``(model_to_use, warning_or_None)``.
+    """
+    installed = _installed_models(native_url)
+    if installed is None:
+        return model, None
+    candidates = {model, model if ":" in model else f"{model}:latest"}
+    if candidates & set(installed):
+        return model, None
+    if not installed:
+        raise RuntimeError(
+            f"No models are installed on the Ollama server.\n"
+            f"  Fix: run  ollama pull {model}  (the default), or pull any other model."
+        )
+    fallback = sorted(installed)[0]
+    warning = (
+        f"Model '{model}' is not downloaded - using '{fallback}' instead. "
+        f"To use '{model}', run: ollama pull {model}  "
+        f"(or pick another model in the dropdown)."
+    )
+    return fallback, warning
+
+
 def _native_url(base_url: str) -> str:
     base = base_url.rstrip("/")
     if base.endswith("/v1"):
@@ -171,6 +210,10 @@ def create_openai_client(api_key: str = None, model: str = None, base_url: str =
     # skip it on every subsequent call instead of eating a failed attempt each time.
     is_ollama = _probe_native(native_url)
 
+    model_warning = None
+    if is_ollama:
+        model, model_warning = _resolve_model(native_url, model)
+
     def call_llm(messages: List[Dict], tools: List[Dict] = None,
                  on_thinking_done: Callable = None, **kwargs) -> _Resp:
         if is_ollama:
@@ -191,5 +234,6 @@ def create_openai_client(api_key: str = None, model: str = None, base_url: str =
     call_llm.model_name = model
     call_llm.base_url = base_url
     call_llm.think = think
+    call_llm.model_warning = model_warning  # set if we fell back to a different model
     call_llm.last_prompt_tokens = None  # tokens read by the model on the last turn
     return call_llm

@@ -170,6 +170,9 @@ def robot_worker():
             base_url=state.config["base_url"],
             think=state.config["think"],
         )
+        if getattr(state.llm, "model_warning", None):
+            emit("SYSTEM_MSG", f"⚠ {state.llm.model_warning}")
+        state.config["model_name"] = state.llm.model_name  # may have fallen back
         state.ready.set()
         emit("SYSTEM_MSG", f"Robot ready. Model: {state.config['model_name']}")
     except Exception as e:
@@ -583,6 +586,9 @@ async def configure(req: ConfigRequest):
             base_url=state.config["base_url"],
             think=state.config["think"],
         )
+        if getattr(state.llm, "model_warning", None):
+            emit("SYSTEM_MSG", f"⚠ {state.llm.model_warning}")
+        state.config["model_name"] = state.llm.model_name  # may have fallen back
     if req.step_delay is not None:
         state.config["step_delay"] = req.step_delay
         changed.append("step_delay")

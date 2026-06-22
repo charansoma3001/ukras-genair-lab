@@ -11,14 +11,32 @@ This Lab is Built for the UK RAS Summer School, and can be run using Ollama or a
 - For macOS (Intel or Apple Silicon) or Linux x86_64. On Apple Silicon, AI2-THOR runs its Intel build under Rosetta, so please install Rosetta once if you haven't: `softwareupdate --install-rosetta --agree-to-license`.
 - If you are using Windows: AI2-THOR has no native build for this version, so please run the lab inside [WSL2](https://learn.microsoft.com/windows/wsl/install) (Ubuntu), which is Linux x86_64.
 
-## Step 2: Quick start
+## Step 2: Start Ollama and download a model (required)
 
-Start a model server and pull the default model:
+**You need at least one model installed before running the lab.** We recommend the
+default, `granite4.1:3b` — the tutorial and eval cases are tuned around it. (If you
+start the lab with a *different* model installed, it falls back to that one and
+warns you; you can also switch models anytime in the UI dropdown.)
+
+In one terminal, start the Ollama server and leave it running:
 
 ```bash
-ollama serve                       # in one terminal
+ollama serve
+```
+
+In another terminal, download the default model (~2.1 GB, one time):
+
+```bash
 ollama pull granite4.1:3b
 ```
+
+Confirm it's there — `granite4.1:3b` should appear in the list:
+
+```bash
+ollama list
+```
+
+## Step 3: Quick start
 
 Pull the repository
 
@@ -41,7 +59,7 @@ open http://localhost:8001 in your browser
 
 The first run downloads the AI2-THOR scene build (this takes a few minutes, once). After that it opens in about 6 seconds. On a web browser, go to http://localhost:8001, type something like *"pick up the apple"*, and watch.
 
-## Step 3: The Guide and Tasks 1-5
+## Step 4: The Guide and Tasks 1-5
 
 The 📖 link in the header opens the Guide (`/guide`), a MkDocs site with everything students need:
 
@@ -50,7 +68,7 @@ The 📖 link in the header opens the Guide (`/guide`), a MkDocs site with every
 
 (You can rebuild it with `uv run mkdocs build`)
 
-## Step 4: What you can edit
+## Step 5: What you can edit
 
 There are three tabs in the UI, each backed by a file:
 
