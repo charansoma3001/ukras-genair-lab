@@ -13,10 +13,7 @@ This Lab is Built for the UK RAS Summer School, and can be run using Ollama or a
 
 ## Step 2: Start Ollama and download a model (required)
 
-**You need at least one model installed before running the lab.** We recommend the
-default, `granite4.1:3b` — the tutorial and eval cases are tuned around it. (If you
-start the lab with a *different* model installed, it falls back to that one and
-warns you; you can also switch models anytime in the UI dropdown.)
+**You need at least one model installed before running the lab.** We recommend the default, `granite4.1:3b` since the tutorial and eval cases are tuned around it.
 
 In one terminal, start the Ollama server and leave it running:
 
