@@ -9,7 +9,7 @@ This Lab is Built for the UK RAS Summer School, and can be run using Ollama or a
 - Install [uv](https://docs.astral.sh/uv/) (`curl -LsSf https://astral.sh/uv/install.sh | sh`)
 - Install a model server. [Ollama](https://ollama.com/) is the easiest option (`curl -fsSL https://ollama.com/install.sh | sh`)
 - For macOS (Intel or Apple Silicon) or Linux x86_64. On Apple Silicon, AI2-THOR runs its Intel build under Rosetta, so please install Rosetta once if you haven't: `softwareupdate --install-rosetta --agree-to-license`.
-- If you are using Windows: AI2-THOR has no native build for this version, so please run the lab inside [WSL2](https://learn.microsoft.com/windows/wsl/install) (Ubuntu), which is Linux x86_64.
+- If you are using Windows: AI2-THOR has no native build for this version, so you run the lab inside [WSL2](https://learn.microsoft.com/windows/wsl/install) (Ubuntu), which is Linux x86_64. **Follow the dedicated [Windows setup guide](docs/setup-windows.md)**, which walks through WSL2, `uv`, Ollama, and running the lab step by step.
 
 ## Step 2: Start Ollama and download a model (required)
 
@@ -27,7 +27,7 @@ In another terminal, download the default model (~2.1 GB, one time):
 ollama pull granite4.1:3b
 ```
 
-Confirm it's there — `granite4.1:3b` should appear in the list:
+Confirm it's there. `granite4.1:3b` should appear in the list:
 
 ```bash
 ollama list
@@ -60,7 +60,7 @@ The first run downloads the AI2-THOR scene build (this takes a few minutes, once
 
 The 📖 link in the header opens the Guide (`/guide`), a MkDocs site with everything students need:
 
-- A walkthrough of Tasks 1-5 -- self left sidebar of the Guide
+- A walkthrough of Tasks 1-5 in the left sidebar of the Guide
 - An API reference listing the robot's capabilities, generated from the code so that it stays in sync.
 
 (You can rebuild it with `uv run mkdocs build`)
